@@ -1,5 +1,4 @@
 *.pyc
 *~
-__pycache__
-/static
+__pycache__x
 .DS_Store

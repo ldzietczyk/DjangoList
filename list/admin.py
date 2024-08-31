@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Row
+from .models        import Row
 
 # Register your models here.
 

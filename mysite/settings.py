@@ -26,6 +26,7 @@ SECRET_KEY = 'django-insecure-k+@((7hbr-=g$4bt*=^udt56l!^_^-lf#z*x#nxcyoc3blm(^&
 DEBUG = True
 
 ALLOWED_HOSTS = ['192.168.7.7', '212.7.218.115', '192.168.7.46']
+CSRF_TRUSTED_ORIGINS = ['http://212.7.218.115:55546', 'http://192.168.7.7:55555']
 
 
 # Application definition
@@ -70,6 +71,9 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'mysite.wsgi.application'
 
+# Login
+LOGIN_URL = '/login/'
+LOGIN_REDIRECT_URL = '/form/'
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases

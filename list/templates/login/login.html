@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <title>Logowanie</title>
+</head>
+    <body>
+        {% if user.is_authenticated %}
+            <p>Jesteś już zalogowany. <a href="{% url 'form' %}">Przejdź do strony głównej</a>.</p>
+        {% else %}
+            <div class="main">
+                <h2>Logowanie</h2>
+                    {% if error_message %}
+                        <p>{{ error_message }}</p>
+                    {% endif %}
+                    <form method="post">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <button type="submit">Zaloguj</button>
+                    </form>
+            </div>
+        {% endif %}
+    </body>
+</html>
