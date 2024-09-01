@@ -2,6 +2,7 @@ from django.db              import models
 from django.conf            import settings
 import datetime            #import datetime
 from django.conf            import settings
+from django.core.exceptions import ValidationError
 
 
 # Create your models here.
@@ -18,10 +19,12 @@ class Row(models.Model):
     
     start_time = models.TimeField(
         'Godzina rozpoczęcia: ',
+        default='00:00'
     )
     
     end_time = models.TimeField(
         'Godzina zakoczenia: ',
+        default='01:00'
     )
     
     desc = models.CharField(

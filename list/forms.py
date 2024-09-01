@@ -28,7 +28,20 @@ class RowForm(forms.ModelForm):
         self.fields['desc'].initial = cleanDesc
         self.fields['type'].initial = cleanType
 
-    
+    def clean(self):
+        cleaned_data = super().clean()
+        start_time = cleaned_data.get('start_time')
+        end_time = cleaned_data.get('end_time')
+        type = cleaned_data.get('type')
+
+        if start_time >= end_time:
+            raise forms.ValidationError("Czas rozpoczęcia pracy nie może być późniejszy niż czas zakończenia pracy")
+
+        if type in [3, 4, 5]:
+            cleaned_data['start_time'] = '00:00'
+            cleaned_data['end_time'] = '00:00'
+
+        return cleaned_data
     
 
 class LoginForm(forms.Form):
