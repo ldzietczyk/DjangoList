@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formularz</title>
+    <style>
+        /* Style dla modala */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgb(0,0,0);
+            background-color: rgba(0,0,0,0.4);
+            padding-top: 60px;
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Formularz</h2>
+
+    <form method="post" id="main-form">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Zapisz</button>
+    </form>
+
+    <!-- Modal -->
+    <div id="confirmModal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="closeModal">&times;</span>
+            <h3>Występują nakładające się wpisy:</h3>
+            <ul>
+                {% for row in overlapping_rows %}
+                    <li>{{ row.date }}: {{ row.start_time }} - {{ row.end_time }} ({{ row.desc }})</li>
+                {% endfor %}
+            </ul>
+            <p>Chcesz zaktualizować wpisy?</p>
+            <form method="post" id="update-form">
+                {% csrf_token %}
+                <input type="hidden" name="update" value="1">
+                <input type="hidden" name="date" id="modal-date" value="{{ new_entry.date|date:"Y-m-d" }}">
+                <input type="hidden" name="start_time" id="modal-start-time" value="{{ new_entry.start_time }}">
+                <input type="hidden" name="end_time" id="modal-end-time" value="{{ new_entry.end_time }}">
+                <input type="hidden" name="desc" id="modal-desc" value="{{ new_entry.desc }}">
+                <input type="hidden" name="type" id="modal-type" value="{{ new_entry.type }}">
+                <button type="submit">Zaktualizuj i usuń nakładające się wpisy</button>
+                <button type="button" id="cancelUpdate">Wróć do strony głównej</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // JavaScript do obsługi modala
+        document.addEventListener('DOMContentLoaded', (event) => {
+            var modal = document.getElementById("confirmModal");
+            var closeModal = document.getElementById("closeModal");
+            var cancelUpdate = document.getElementById("cancelUpdate");
+            var updateForm = document.getElementById("update-form");
+
+            // Pobierz liczbę nakładających się wpisów z atrybutu data
+            var overlappingRowsCount = parseInt('{{ overlapping_rows|length }}', 10);
+
+            // Wyświetl modal, jeśli są nakładające się wpisy
+            if (overlappingRowsCount > 0) {
+                modal.style.display = "block";
+            }
+
+            // Zamknij modal, gdy kliknięto na przycisk "x"
+            closeModal.onclick = function() {
+                modal.style.display = "none";
+            }
+
+            // Zamknij modal i przekieruj do strony głównej
+            cancelUpdate.onclick = function() {
+                modal.style.display = "none";
+                window.location.href = "{% url 'index' %}"; // Ustaw odpowiedni URL strony głównej
+            }
+
+            // Zamknij modal, gdy kliknięto poza jego obszarem
+            window.onclick = function(event) {
+                if (event.target === modal) {
+                    modal.style.display = "none";
+                }
+            }
+
+            // Sprawdź poprawność daty i czasu w formularzu przed przesłaniem
+            updateForm.addEventListener('submit', function(event) {
+                var dateInput = document.getElementById('modal-date').value;
+                var startTimeInput = document.getElementById('modal-start-time').value;
+                var endTimeInput = document.getElementById('modal-end-time').value;
+
+                // Przykład sprawdzania formatu daty (możesz dostosować według potrzeb)
+                var datePattern = /^\d{4}-\d{2}-\d{2}$/; // Format YYYY-MM-DD
+                if (!datePattern.test(dateInput)) {
+                    alert('Nieprawidłowy format daty. Oczekiwany format to YYYY-MM-DD.');
+                    event.preventDefault();
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>
