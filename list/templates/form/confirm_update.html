@@ -1,0 +1,17 @@
+<!-- templates/form/confirm_update.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Potwierdź aktualizację</title>
+</head>
+<body>
+    <h1>Podane godziny pokrywają się z innymi wierszami.</h1>
+    <form method="post" action="{% url 'confirm_update' %}">
+        {% csrf_token %}
+        <p>Chcesz zaktualizować wpis?</p>
+        <button type="submit" name="action" value="update">Zaktualizuj</button>
+        <button type="submit" name="action" value="cancel">Porzuć</button>
+    </form>
+</body>
+</html>
