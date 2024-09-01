@@ -21,15 +21,18 @@ def formv(request):
             row = form.save(commit=False)
             row.user = request.user
             row.save()
+            return redirect('success')
     else:
-        form = RowForm()
+        form = RowForm(user=request.user)
     return render(request, 'form/form.html', {'form': form})
+
+def successv(request):
+    return render(request, 'form/errors/success.html', {})
 
 class loginv(LoginView):
     template_name = 'login/login.html'
 
     def form_invalid(self, form):
-        # Renderowanie szablonu logowania z komunikatem o błędzie
         return render(self.request, self.template_name, {
             'form': form,
         })
