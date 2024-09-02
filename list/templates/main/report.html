@@ -9,70 +9,72 @@
     <title>Raport</title>
 </head>
 <body>
-    <form action="{% url 'index' %}" method="get" style="display: inline;">
-        {% csrf_token %}
-        <button type="submit">Strona Główna</button>
-    </form>
-    
-    <form method="GET" style="display: inline;">
-        <label for="month">Miesiąc:</label>
-        <select id="month" name="month">
-            {% for i in months %}
-                <option value="{{ i }}" {% if i == selected_month %}selected{% endif %}>
-                    {{ i }}
-                </option>
-            {% endfor %}
-        </select>
+    <div class="main">
+        <form action="{% url 'index' %}" method="get" style="display: inline;">
+            {% csrf_token %}
+            <button type="submit">Strona Główna</button>
+        </form>
+        
+        <form method="GET" style="display: inline;">
+            <label for="month">Miesiąc:</label>
+            <select id="month" name="month">
+                {% for i in months %}
+                    <option value="{{ i }}" {% if i == selected_month %}selected{% endif %}>
+                        {{ i }}
+                    </option>
+                {% endfor %}
+            </select>
 
-        <label for="year">Rok:</label>
-        <select id="year" name="year">
-            {% for y in years %}
-                <option value="{{ y }}" {% if y == selected_year %}selected{% endif %}>{{ y }}</option>
-            {% endfor %}
-        </select>
+            <label for="year">Rok:</label>
+            <select id="year" name="year">
+                {% for y in years %}
+                    <option value="{{ y }}" {% if y == selected_year %}selected{% endif %}>{{ y }}</option>
+                {% endfor %}
+            </select>
 
-        {% if is_manager %}
-        <label for="user">Pracownik:</label>
-        <select id="user" name="user">
-            {% for user in users %}
-                <option value="{{ user.id }}" {% if user.id == selected_user.id %}selected{% endif %}>
-                    {{ user.first_name }} {{ user.last_name }}
-                </option>
-            {% endfor %}
-        </select>
-        {% endif %}
+            {% if is_manager %}
+            <label for="user">Pracownik:</label>
+            <select id="user" name="user">
+                {% for user in users %}
+                    <option value="{{ user.id }}" {% if user.id == selected_user.id %}selected{% endif %}>
+                        {{ user.first_name }} {{ user.last_name }}
+                    </option>
+                {% endfor %}
+            </select>
+            {% endif %}
 
-        <button type="submit">Pokaż</button>
-    </form>
+            <button type="submit">Pokaż</button>
+        </form><br><br>
 
-    <table>
-        <caption>
-            Raport pracownika {{ selected_user.first_name }} {{ selected_user.last_name }} za {{ selected_month_name }} {{ selected_year }}
-        </caption>
-        <thead>
-            <tr>
-                <th>Dzień</th>
-                <th>Rozpoczęcie</th>
-                <th>Zakończenie</th>
-                <th>Opis</th>
-                <th>Typ</th>
-                <th>Przepracowane godziny</th>
-                <th>Nadgodziny</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for row in rows %}
+        <table>
+            <caption>
+                Raport pracownika {{ selected_user.first_name }} {{ selected_user.last_name }} za {{ selected_month_name }} {{ selected_year }}
+            </caption>
+            <thead>
                 <tr>
-                    <td>{{ row.date|date:"j" }}</td>
-                    <td>{{ row.start_time }}</td>
-                    <td>{{ row.end_time }}</td>
-                    <td>{{ row.desc }}</td>
-                    <td>{{ row.type }}</td>
-                    <td>{{ row.total_hours }}</td>
-                    <td>{{ row.overtime_hours }}</td>
+                    <th>Dzień</th>
+                    <th>Rozpoczęcie</th>
+                    <th>Zakończenie</th>
+                    <th class="desc">Opis</th>
+                    <th>Typ</th>
+                    <th>Przepracowane godziny</th>
+                    <th>Nadgodziny</th>
                 </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                {% for row in rows %}
+                    <tr>
+                        <td>{{ row.date|date:"j" }}</td>
+                        <td>{{ row.start_time }}</td>
+                        <td>{{ row.end_time }}</td>
+                        <td class="desc">{{ row.desc }}</td>
+                        <td>{{ row.type }}</td>
+                        <td>{{ row.total_hours }}</td>
+                        <td>{{ row.overtime_hours }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 </body>
 </html>

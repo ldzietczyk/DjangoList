@@ -5,11 +5,17 @@ body {
     text-align: center;
 }
 
+.main {
+    max-width: 100%;
+}
+
 table {
     width: 100%;
     border: 1px solid white;
     border-collapse: collapse;
     padding: 5px;
+    table-layout: fixed;
+    font-size: 80%;
 }
 
 th, td {
@@ -20,4 +26,11 @@ th, td {
 
 caption {
     font-size: 200%;
+}
+
+.desc {
+    max-width: 25%;
+    overflow-wrap: break-word; /* Zapewnia zawijanie długich słów */
+    word-wrap: break-word; /* Kompatybilność z starszymi przeglądarkami */
+    white-space: normal; /* Umożliwia zawijanie tekstu */
 }
