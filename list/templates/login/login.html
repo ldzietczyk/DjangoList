@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/login.css' %}">
+    <link rel="shortcut icon" type="image/ico" href="{% static 'favi.ico' %}">
     <title>Logowanie</title>
 </head>
     <body>
@@ -11,14 +13,22 @@
             <p>Jesteś już zalogowany. <a href="{% url 'form' %}">Przejdź do strony głównej</a>.</p>
         {% else %}
             <div class="main">
-                <h2>Logowanie</h2>
+                <h1>Logowanie</h1>
                     {% if error_message %}
                         <p>{{ error_message }}</p>
                     {% endif %}
                     <form method="post">
                         {% csrf_token %}
-                        {{ form.as_p }}
-                        <button type="submit">Zaloguj</button>
+                        <div>
+                            <label for="{{ form.username.id_for_label }}">Nazwa Użytkownika:</label><br>
+                            {{ form.username }}<br>
+                        </div>
+                        
+                        <div>
+                            <label for="{{ form.password.id_for_label }}">Hasło:</label><br>
+                            {{ form.password }}
+                        </div>
+                        <br><button type="submit">Zaloguj</button>
                     </form>
             </div>
         {% endif %}

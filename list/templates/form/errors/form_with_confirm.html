@@ -3,8 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Formularz</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/success.css' %}">
+    <link rel="shortcut icon" type="image/ico" href="{% static 'favi.ico' %}">
+    <title>Zatwierdzenie</title>
     <style>
+        body {
+            background-color: black;
+            color: black;
+            text-align: center;
+            font-size: 150%;
+        }
+        select,
+        input {
+            font-size: 1%;
+        }
+        
+        @media (max-width: 1100px) {
+            body {
+                font-size: 350%;
+            }
+            button {
+                font-size: 100%;
+            }
+        }
+
         /* Style dla modala */
         .modal {
             display: none;
@@ -53,7 +76,6 @@
     <!-- Modal -->
     <div id="confirmModal" class="modal">
         <div class="modal-content">
-            <span class="close" id="closeModal">&times;</span>
             <h3>Występują nakładające się wpisy:</h3>
             <ul>
                 {% for row in overlapping_rows %}

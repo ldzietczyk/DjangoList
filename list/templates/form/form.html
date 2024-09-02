@@ -5,13 +5,13 @@
     <p>Witaj, {{ request.user.first_name }}!</p>
     <form action="{% url 'logout' %}" method="post">
         {% csrf_token %}
-        <input type="submit" class="loginbutton" value="Wyloguj">
+        <button type="submit">Wyloguj</button>
     </form>
     <h1 id="date"></h1>
     <form action="" method="post">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit" class="loginbutton">Zapisz</button>
+        <button type="submit">Zapisz</button>
     </form><br><br>
 
     <script>

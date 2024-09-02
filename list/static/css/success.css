@@ -1,0 +1,24 @@
+body {
+    background-color: black;
+    color: white;
+    text-align: center;
+    font-size: 150%;
+}
+
+a {
+    color: white;
+    font-style: italic;
+}
+
+@media (max-width: 1100px) {
+    body {
+        font-size: 350%;
+    }
+    a {
+        color: white;
+        font-style: italic;
+    }
+    input {
+        font-size: 150%;
+    }
+}

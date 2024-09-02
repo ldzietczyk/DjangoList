@@ -34,8 +34,9 @@ class RowForm(forms.ModelForm):
         end_time = cleaned_data.get('end_time')
         type = cleaned_data.get('type')
 
-        if start_time >= end_time:
-            raise forms.ValidationError("Czas rozpoczęcia pracy nie może być późniejszy niż czas zakończenia pracy")
+        if type in [1, 2]:
+            if start_time >= end_time:
+                raise forms.ValidationError("Czas rozpoczęcia pracy nie może być późniejszy niż czas zakończenia pracy")
 
         if type in [3, 4, 5]:
             cleaned_data['start_time'] = '00:00'

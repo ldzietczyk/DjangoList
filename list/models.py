@@ -13,22 +13,22 @@ class Row(models.Model):
     )
     
     date = models.DateField(
-        'Podaj datę: ',
+        'Podaj datę',
         default=datetime.date.today,
     )
     
     start_time = models.TimeField(
-        'Godzina rozpoczęcia: ',
+        'Godzina rozpoczęcia',
         default='00:00'
     )
     
     end_time = models.TimeField(
-        'Godzina zakoczenia: ',
+        'Godzina zakoczenia',
         default='01:00'
     )
     
     desc = models.CharField(
-        'Opis: ',
+        'Opis',
         max_length=150,
         blank=True,
     )
@@ -41,7 +41,7 @@ class Row(models.Model):
     ]
 
     type = models.IntegerField(
-        'Wybierz rodzaj pracy:',
+        'Wybierz rodzaj pracy',
         choices=work,
         default=1,
     )
