@@ -1,0 +1,23 @@
+body {
+    background-color: black;
+    color: white;
+    font-size: 150%;
+    text-align: center;
+}
+
+table {
+    width: 100%;
+    border: 1px solid white;
+    border-collapse: collapse;
+    padding: 5px;
+}
+
+th, td {
+    border: 1px solid white;
+    border-collapse: collapse;
+    padding: 5px;
+}
+
+caption {
+    font-size: 200%;
+}

@@ -10,5 +10,6 @@ urlpatterns = [
     path('login/', views.loginv.as_view(), name='login'),
     path('logout/', views.logoutv.as_view(), name='logout'),
     path('success/', views.successv, name='success'),
+    path('report/', views.reportv, name='report'),
     path('<path:path>', TemplateView.as_view(template_name="main/404.html"), name="404"),
 ]

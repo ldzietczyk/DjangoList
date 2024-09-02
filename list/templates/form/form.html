@@ -3,14 +3,39 @@
 
 {% block form %}
     <p>Witaj, {{ request.user.first_name }}!</p>
-    <form action="{% url 'logout' %}" method="post">
+    <form action="{% url 'logout' %}" method="post" style="display: inline;">
         {% csrf_token %}
         <button type="submit">Wyloguj</button>
     </form>
+    <form action="{% url 'report' %}" method="get" style="display: inline;">
+        {% csrf_token %}
+        <button type="submit">Raport</button>
+    </form>
+    
     <h1 id="date"></h1>
     <form action="" method="post">
         {% csrf_token %}
-        {{ form.as_p }}
+        <div>
+            <label for="{{ form.date.id_for_label }}">Podaj datę:</label><br>
+            {{ form.date }}<br>
+        </div>
+        <div>
+            <label for="{{ form.start_time.id_for_label }}">Godzina rozpoczęcia:</label><br>
+            {{ form.start_time }}<br>
+        </div>
+        <div>
+            <label for="{{ form.end_time.id_for_label }}">Podaj datę:</label><br>
+            {{ form.end_time }}<br>
+        </div>
+        <div>
+            <label for="{{ form.desc.id_for_label }}">Opis:</label><br>
+            {{ form.desc }}<br>
+        </div>
+        <div>
+            <label for="{{ form.type.id_for_label }}">Wybierz rodzaj pracy:</label><br>
+            {{ form.type }}<br>
+        </div>
+        <br>
         <button type="submit">Zapisz</button>
     </form><br><br>
 

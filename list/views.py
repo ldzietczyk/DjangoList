@@ -6,6 +6,7 @@ from django.contrib.auth.views          import LoginView, LogoutView
 from django.urls                        import reverse_lazy
 from datetime                           import datetime
 from django.http                        import HttpResponse
+from django.contrib.auth.models         import User, Group
 
 # Create your views here.
 
@@ -117,6 +118,66 @@ def confirm_update(request):
        
 def successv(request):
     return render(request, 'form/errors/success.html', {})
+
+
+@login_required
+def reportv(request):
+    current_month = datetime.now().month
+    current_year = datetime.now().year
+
+    # Lista miesięcy po polsku
+    months_polish = [
+        "Styczeń", "Luty", "Marzec", "Kwiecień", "Maj", "Czerwiec",
+        "Lipiec", "Sierpień", "Wrzesień", "Październik", "Listopad", "Grudzień"
+    ]
+
+    # Lista miesięcy od 1 do 12
+    months = list(range(1, 13))
+
+    # Zakładamy, że chcesz pokazać ostatnie 10 lat
+    years = range(current_year - 10, current_year + 1)
+
+    # Pobranie użytkowników
+    users = User.objects.all()
+
+    # Pobranie wybranego użytkownika z zapytania GET, domyślnie ustaw na zalogowanego użytkownika
+    selected_user_id = int(request.GET.get('user', request.user.id))
+    selected_user = User.objects.get(id=selected_user_id)
+
+    # Sprawdzanie, czy zalogowany użytkownik należy do grupy "kierownik"
+    is_manager = request.user.groups.filter(name="kierownik").exists()
+
+    # Jeżeli użytkownik nie jest kierownikiem, może zobaczyć tylko swoje własne dane
+    if not is_manager and selected_user != request.user:
+        return redirect('reportv')  # przekieruj na stronę z danymi tylko dla zalogowanego użytkownika
+
+    # Pobranie wybranego miesiąca i roku z zapytania GET
+    selected_month = int(request.GET.get('month', current_month))
+    selected_year = int(request.GET.get('year', current_year))
+
+    # Filtrowanie danych
+    rows = Row.objects.filter(
+        user=selected_user,
+        date__month=selected_month,
+        date__year=selected_year
+    ).order_by('date')
+
+    # Przypisanie polskiej nazwy miesiąca
+    selected_month_name = months_polish[selected_month - 1]
+
+    context = {
+        'rows': rows,
+        'selected_month': selected_month,
+        'selected_month_name': selected_month_name,
+        'selected_year': selected_year,
+        'months': months,
+        'years': years,
+        'users': users,
+        'selected_user': selected_user,
+        'is_manager': is_manager,
+    }
+
+    return render(request, 'main/report.html', context)
 
 
 class loginv(LoginView):

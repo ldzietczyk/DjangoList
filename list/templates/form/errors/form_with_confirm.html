@@ -113,22 +113,10 @@
                 modal.style.display = "block";
             }
 
-            // Zamknij modal, gdy kliknięto na przycisk "x"
-            closeModal.onclick = function() {
-                modal.style.display = "none";
-            }
-
             // Zamknij modal i przekieruj do strony głównej
             cancelUpdate.onclick = function() {
                 modal.style.display = "none";
                 window.location.href = "{% url 'index' %}"; // Ustaw odpowiedni URL strony głównej
-            }
-
-            // Zamknij modal, gdy kliknięto poza jego obszarem
-            window.onclick = function(event) {
-                if (event.target === modal) {
-                    modal.style.display = "none";
-                }
             }
 
             // Sprawdź poprawność daty i czasu w formularzu przed przesłaniem
