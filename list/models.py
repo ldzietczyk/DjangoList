@@ -68,18 +68,4 @@ class Row(models.Model):
             self.total_hours = work_duration
             self.overtime_hours = datetime.timedelta(0)  # Zwykłe godziny pracy nie są nadgodzinami
 
-        # Aktualizacja sumy godzin dla danego dnia
-        total_work_today = Row.objects.filter(user=self.user, date=self.date, type=1).aggregate(
-            total=Sum(ExpressionWrapper(F('end_time') - F('start_time'), output_field=DurationField()))
-        )
-        
-        total_overtime_today = Row.objects.filter(user=self.user, date=self.date, type=2).aggregate(
-            total=Sum(ExpressionWrapper(F('end_time') - F('start_time'), output_field=DurationField()))
-        )
-
-        if total_work_today['total']:
-            self.total_hours += total_work_today['total']
-        if total_overtime_today['total']:
-            self.overtime_hours += total_overtime_today['total']
-
         super(Row, self).save(*args, **kwargs)

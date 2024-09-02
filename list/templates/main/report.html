@@ -64,13 +64,15 @@
             <tbody>
                 {% for row in rows %}
                     <tr>
-                        <td>{{ row.date|date:"j" }}</td>
+                        {% if forloop.first or rows|slice:"{{ forloop.counter0|add:-1 }}:" %}
+                            <td rowspan="{{ row.rowspan }}">{{ row.date|date:"j" }}</td>
+                        {% endif %}
                         <td>{{ row.start_time }}</td>
                         <td>{{ row.end_time }}</td>
                         <td class="desc">{{ row.desc }}</td>
-                        <td>{{ row.type }}</td>
-                        <td>{{ row.total_hours }}</td>
-                        <td>{{ row.overtime_hours }}</td>
+                        <td>{{ row.get_type_display }}</td>
+                            <td rowspan="{{ row.rowspan }}">{{ row.total_hours }}</td>
+                            <td rowspan="{{ row.rowspan }}">{{ row.overtime_hours }}</td>
                     </tr>
                 {% endfor %}
             </tbody>

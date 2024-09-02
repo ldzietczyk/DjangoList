@@ -4,9 +4,11 @@ from .models                            import Row
 from django.contrib.auth.decorators     import login_required
 from django.contrib.auth.views          import LoginView, LogoutView
 from django.urls                        import reverse_lazy
-from datetime                           import datetime
+from datetime                           import datetime, timedelta
 from django.http                        import HttpResponse
 from django.contrib.auth.models         import User, Group
+from collections                        import defaultdict
+from django.db.models                   import Max
 
 # Create your views here.
 
@@ -160,7 +162,25 @@ def reportv(request):
         user=selected_user,
         date__month=selected_month,
         date__year=selected_year
-    ).order_by('date')
+    ).order_by('date', 'start_time')
+
+    # Grupowanie danych po dacie i wybieranie największych wartości
+    grouped_rows = defaultdict(lambda: {"total_hours": timedelta(), "overtime_hours": timedelta(), "last_row": None})
+    for row in rows:
+        grouped_data = grouped_rows[row.date]
+        
+        # Użyj total_seconds() do porównania czasu pracy
+        grouped_data["total_hours"] = max(grouped_data["total_hours"], row.total_hours, key=lambda x: x.total_seconds())
+        grouped_data["overtime_hours"] = max(grouped_data["overtime_hours"], row.overtime_hours, key=lambda x: x.total_seconds())
+        grouped_data["last_row"] = row  # Zachowaj ostatni wpis dla tej daty
+
+    # Przygotowanie listy ostatecznych wierszy do wyświetlenia
+    final_rows = []
+    for date, data in grouped_rows.items():
+        row = data["last_row"]
+        row.total_hours = data["total_hours"]
+        row.overtime_hours = data["overtime_hours"]
+        final_rows.append(row)
 
     # Przypisanie polskiej nazwy miesiąca
     selected_month_name = months_polish[selected_month - 1]
