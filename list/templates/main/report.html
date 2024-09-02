@@ -19,7 +19,7 @@
         <select id="month" name="month">
             {% for i in months %}
                 <option value="{{ i }}" {% if i == selected_month %}selected{% endif %}>
-                    {{ months_polish|slice:i|first }}
+                    {{ i }}
                 </option>
             {% endfor %}
         </select>
