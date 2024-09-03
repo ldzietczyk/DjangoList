@@ -11,6 +11,11 @@
         {% csrf_token %}
         <button type="submit">Raport</button>
     </form>
+    <form action="{% url 'admin:index' %}" method="get" style="display: inline;">
+        {% if is_admin %}
+            <button type="submit">Admin</button>
+        {% endif %}
+    </form>
     
     <h1 id="date"></h1>
     <form action="" method="post">

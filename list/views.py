@@ -22,6 +22,9 @@ def indexv(request):
 
 @login_required
 def formv(request):
+    
+    is_admin = request.user.groups.filter(name="admin").exists()
+    
     if request.method == 'POST':
         if 'update' in request.POST:
             date_str = request.POST.get('date')
@@ -74,7 +77,12 @@ def formv(request):
     else:
         form = RowForm(user=request.user)
 
-    return render(request, 'form/form.html', {'form': form})
+    context = {
+        'form': form,
+        'is_admin': is_admin,
+    }
+
+    return render(request, 'form/form.html', context)
 
 
 @login_required

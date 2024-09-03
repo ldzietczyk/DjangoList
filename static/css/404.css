@@ -1,0 +1,12 @@
+body {
+    background-color: black;
+    color: white;
+    font-size: 150%;
+    text-align: center;
+}
+
+a {
+    color: white;
+    font-weight: 900;
+    font-style: italic;
+}

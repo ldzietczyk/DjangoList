@@ -1,0 +1,19 @@
+body {
+    background-color: black;
+    color: white;
+    text-align: center;
+}
+
+button {
+    background-color: white;
+    color: black;
+    font-size: 150%;
+}
+
+label {
+    font-size: 150%;
+}
+
+h1 {
+    font-size: 400%;
+}

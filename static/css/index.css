@@ -1,0 +1,26 @@
+body {
+    background-color: black;
+    color: white;
+    text-align: center;
+    font-size: 150%;
+}
+
+button {
+    background-color: white;
+    color: black;
+    font-size: 120%;
+}
+
+@media (max-width: 1100px) {
+    body {
+        font-size: 350%;
+    }
+    select,
+    input {
+        font-size: 100%;
+    }
+}
+
+div {
+    font-size: 110%;
+}
